@@ -32,7 +32,7 @@ class ExerciseCard extends StatelessWidget {
               height: 250,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
+                color: const Color.fromRGBO(0, 0, 0, 0.3),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Center(
@@ -53,9 +53,9 @@ class ExerciseCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
+                color: const Color.fromRGBO(255, 171, 64, 0.1),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.warning.withOpacity(0.3)),
+                border: Border.all(color: const Color.fromRGBO(255, 171, 64, 0.3)),
               ),
               child: Row(
                 children: [

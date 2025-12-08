@@ -26,7 +26,7 @@ class NeonButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: buttonColor.withOpacity(0.5),
+            color: Color.fromRGBO(buttonColor.red, buttonColor.green, buttonColor.blue, 0.5),
             blurRadius: 20,
             spreadRadius: 2,
           ),
@@ -43,17 +43,17 @@ class NeonButton extends StatelessWidget {
 
     if (animate) {
       button = button.animate(onPlay: (controller) => controller.repeat())
-          .shimmer(duration: 2000.ms, color: Colors.white.withOpacity(0.5))
+          .shimmer(duration: 2000.ms, color: const Color.fromRGBO(255, 255, 255, 0.5))
           .then()
           .boxShadow(
             begin: const BoxShadow(color: Colors.transparent),
-            end: BoxShadow(color: buttonColor.withOpacity(0.5), blurRadius: 30, spreadRadius: 5),
+            end: BoxShadow(color: Color.fromRGBO(buttonColor.red, buttonColor.green, buttonColor.blue, 0.5), blurRadius: 30, spreadRadius: 5),
             duration: 1500.ms,
             curve: Curves.easeInOut,
           )
           .then()
           .boxShadow(
-            begin: BoxShadow(color: buttonColor.withOpacity(0.5), blurRadius: 30, spreadRadius: 5),
+            begin: BoxShadow(color: Color.fromRGBO(buttonColor.red, buttonColor.green, buttonColor.blue, 0.5), blurRadius: 30, spreadRadius: 5),
             end: const BoxShadow(color: Colors.transparent),
             duration: 1500.ms,
             curve: Curves.easeInOut,

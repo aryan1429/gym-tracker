@@ -33,8 +33,8 @@ class WorkoutPlanCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: isSuggested
               ? [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
+                  const BoxShadow(
+                    color: Color.fromRGBO(0, 255, 136, 0.3),
                     blurRadius: 20,
                     spreadRadius: 2,
                   )
@@ -48,7 +48,7 @@ class WorkoutPlanCard extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               border: isSuggested
-                  ? Border.all(color: AppColors.primary.withOpacity(0.5), width: 1.5)
+                  ? Border.all(color: const Color.fromRGBO(0, 255, 136, 0.5), width: 1.5)
                   : null,
               borderRadius: BorderRadius.circular(24),
             ),
@@ -86,7 +86,7 @@ class WorkoutPlanCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+                    color: const Color.fromRGBO(0, 0, 0, 0.3),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(

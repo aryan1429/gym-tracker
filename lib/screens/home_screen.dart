@@ -5,7 +5,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/custom_card.dart';
-import '../widgets/glass_container.dart';
 import 'workout_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -87,9 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
           style: AppTextStyles.displayLarge.copyWith(
             fontSize: 80,
             height: 0.9,
-            shadows: [
+            shadows: const [
               Shadow(
-                color: AppColors.primary.withOpacity(0.5),
+                color: Color.fromRGBO(0, 255, 136, 0.5),
                 blurRadius: 20,
               ),
             ],

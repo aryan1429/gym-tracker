@@ -24,10 +24,10 @@ class WorkoutCompletedScreen extends StatelessWidget {
           // Celebration Background Effect
           Positioned.fill(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withOpacity(0.2),
+                    Color.fromRGBO(0, 255, 136, 0.2),
                     Colors.transparent,
                   ],
                   radius: 1.5,

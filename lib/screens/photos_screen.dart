@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
-import '../widgets/glass_container.dart';
 
 class PhotosScreen extends StatelessWidget {
   const PhotosScreen({super.key});
@@ -63,12 +62,12 @@ class PhotosScreen extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  Colors.black.withOpacity(0.8),
+                  Color.fromRGBO(0, 0, 0, 0.8),
                 ],
               ),
             ),

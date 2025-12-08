@@ -12,7 +12,6 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   
@@ -43,7 +42,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     firstDay: DateTime.utc(2024, 1, 1),
                     lastDay: DateTime.utc(2030, 12, 31),
                     focusedDay: _focusedDay,
-                    calendarFormat: _calendarFormat,
+                    calendarFormat: CalendarFormat.month,
                     selectedDayPredicate: (day) {
                       return isSameDay(_selectedDay, day);
                     },
@@ -60,9 +59,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     calendarStyle: CalendarStyle(
                       defaultTextStyle: AppTextStyles.bodyMedium,
                       weekendTextStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
-                      outsideTextStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary.withOpacity(0.5)),
-                      todayDecoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.3),
+                      outsideTextStyle: AppTextStyles.bodyMedium.copyWith(color: const Color.fromRGBO(179, 179, 179, 0.5)),
+                      todayDecoration: const BoxDecoration(
+                        color: Color.fromRGBO(0, 255, 136, 0.3),
                         shape: BoxShape.circle,
                       ),
                       selectedDecoration: const BoxDecoration(
@@ -114,9 +113,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     Color? bgColor;
     if (attended == true) {
-      bgColor = AppColors.primary.withOpacity(0.2);
+      bgColor = const Color.fromRGBO(0, 255, 136, 0.2);
     } else if (attended == false) {
-      bgColor = AppColors.error.withOpacity(0.2);
+      bgColor = const Color.fromRGBO(255, 68, 68, 0.2);
     }
 
     return Container(

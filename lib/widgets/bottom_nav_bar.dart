@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:glassmorphism_ui/glassmorphism_ui.dart' as glass;
 import '../theme/app_theme.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -14,13 +14,13 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GlassContainer(
+    return glass.GlassContainer(
       height: 80,
       width: double.infinity,
       blur: 20,
-      opacity: 0.1,
+      color: const Color.fromRGBO(255, 255, 255, 0.1),
       borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-      border: const Border.fromBorderSide(BorderSide.none),
+      border: Border.all(color: Colors.transparent),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -46,12 +46,12 @@ class CustomBottomNavBar extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withOpacity(0.2) : Colors.transparent,
+              color: isSelected ? const Color.fromRGBO(0, 255, 136, 0.2) : Colors.transparent,
               shape: BoxShape.circle,
               boxShadow: isSelected
                   ? [
-                      BoxShadow(
-                        color: AppColors.primary.withOpacity(0.5),
+                      const BoxShadow(
+                        color: Color.fromRGBO(0, 255, 136, 0.5),
                         blurRadius: 10,
                         spreadRadius: 1,
                       )
