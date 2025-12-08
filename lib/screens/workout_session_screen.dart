@@ -1,0 +1,175 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import '../theme/app_theme.dart';
+import '../widgets/exercise_card.dart';
+import '../widgets/neon_button.dart';
+import 'workout_completed_screen.dart';
+
+class WorkoutSessionScreen extends StatefulWidget {
+  final String workoutName;
+
+  const WorkoutSessionScreen({
+    super.key,
+    required this.workoutName,
+  });
+
+  @override
+  State<WorkoutSessionScreen> createState() => _WorkoutSessionScreenState();
+}
+
+class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
+  late Timer _timer;
+  int _secondsElapsed = 0;
+  int _currentExerciseIndex = 0;
+  final PageController _pageController = PageController();
+
+  // Mock Data
+  final List<Map<String, String>> _exercises = [
+    {
+      'name': 'Deadlifts',
+      'sets': '4 Sets x 5-8 Reps',
+      'notes': 'Focus on form. Keep back straight.',
+    },
+    {
+      'name': 'Pull Ups',
+      'sets': '3 Sets x Failure',
+      'notes': 'Full ROM. Chin over bar.',
+    },
+    {
+      'name': 'Barbell Rows',
+      'sets': '3 Sets x 8-12 Reps',
+      'notes': 'Squeeze at the top.',
+    },
+    {
+      'name': 'Face Pulls',
+      'sets': '3 Sets x 15-20 Reps',
+      'notes': 'Focus on rear delts.',
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        _secondsElapsed++;
+      });
+    });
+  }
+
+  String get _formattedTime {
+    final minutes = (_secondsElapsed / 60).floor().toString().padLeft(2, '0');
+    final seconds = (_secondsElapsed % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _completeExercise() {
+    if (_currentExerciseIndex < _exercises.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+      setState(() {
+        _currentExerciseIndex++;
+      });
+    } else {
+      _finishWorkout();
+    }
+  }
+
+  void _finishWorkout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WorkoutCompletedScreen(
+          duration: _formattedTime,
+          workoutName: widget.workoutName,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  Text(
+                    _formattedTime,
+                    style: AppTextStyles.displayMedium.copyWith(
+                      fontFeatures: [const FontFeature.tabularFigures()],
+                    ),
+                  ),
+                  Text(
+                    widget.workoutName.toUpperCase(),
+                    style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary),
+                  ),
+                ],
+              ),
+            ),
+
+            // Progress Bar
+            LinearProgressIndicator(
+              value: (_currentExerciseIndex + 1) / _exercises.length,
+              backgroundColor: AppColors.surfaceLight,
+              valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+            ),
+
+            // Exercise Cards
+            Expanded(
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _exercises.length,
+                itemBuilder: (context, index) {
+                  final exercise = _exercises[index];
+                  return Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: ExerciseCard(
+                      exerciseName: exercise['name']!,
+                      setsReps: exercise['sets']!,
+                      notes: exercise['notes']!,
+                    ).animate().fadeIn().slideX(begin: 0.2, end: 0),
+                  );
+                },
+              ),
+            ),
+
+            // Complete Button
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: NeonButton(
+                text: _currentExerciseIndex == _exercises.length - 1
+                    ? 'FINISH WORKOUT'
+                    : 'COMPLETE EXERCISE',
+                onPressed: _completeExercise,
+                animate: true,
+                color: _currentExerciseIndex == _exercises.length - 1
+                    ? AppColors.primary
+                    : AppColors.surfaceLight,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
