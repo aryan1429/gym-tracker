@@ -17,5 +17,6 @@ class GymTrackerApp extends StatelessWidget {
       theme: AppTheme.darkTheme,
       home: const MainScaffold(),
     );
-  }
+  }-+
+  31,m `QWERTYUIOP[]\7`
 }
