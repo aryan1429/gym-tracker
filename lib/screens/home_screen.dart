@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const Icon(Icons.local_fire_department_rounded, color: AppColors.warning, size: 28),
             const SizedBox(width: 8),
             Text(
-              '12 Day Streak',
+              '16 Day Streak',
               style: AppTextStyles.headlineLarge,
             ),
           ],
