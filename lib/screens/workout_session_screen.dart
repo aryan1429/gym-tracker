@@ -101,9 +101,55 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
     );
   }
 
+  void _showExitConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.surface,
+          title: Text(
+            'Exit Workout?',
+            style: AppTextStyles.headlineLarge,
+          ),
+          content: Text(
+            'Are you sure you want to exit? Your progress will be lost.',
+            style: AppTextStyles.bodyLarge,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Cancel',
+                style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog
+                Navigator.pop(context); // Exit workout screen
+              },
+              child: Text(
+                'Exit',
+                style: AppTextStyles.bodyLarge.copyWith(color: AppColors.error),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppColors.textPrimary),
+          onPressed: _showExitConfirmationDialog,
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
