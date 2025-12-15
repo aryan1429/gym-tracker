@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/custom_card.dart';
+import '../widgets/glass_container.dart';
 import 'workout_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -137,17 +138,18 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Expanded(
               child: _buildSummaryCard(
-                'Last Workout',
-                '1h 20m',
-                Icons.timer_outlined,
+                title: 'Last Workout',
+                value: '1h 20m',
+                icon: Icons.timer_outlined,
+                onTap: () => _showLastWorkoutDetails(context),
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: _buildSummaryCard(
-                'Type',
-                'Push Day',
-                Icons.fitness_center_outlined,
+                title: 'Type',
+                value: 'Push Day',
+                icon: Icons.fitness_center_outlined,
               ),
             ),
           ],
@@ -156,8 +158,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildSummaryCard(String title, String value, IconData icon) {
+  Widget _buildSummaryCard({
+    required String title,
+    required String value,
+    required IconData icon,
+    VoidCallback? onTap,
+  }) {
     return CustomCard(
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -171,6 +179,143 @@ class _HomeScreenState extends State<HomeScreen> {
           Text(
             title,
             style: AppTextStyles.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showLastWorkoutDetails(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => GlassContainer(
+        height: MediaQuery.of(context).size.height * 0.6,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                   const Icon(Icons.history_rounded, color: AppColors.primary, size: 32),
+                   const SizedBox(width: 12),
+                   Text(
+                     'Last Workout',
+                     style: AppTextStyles.headlineLarge,
+                   ),
+                ],
+              ),
+              const SizedBox(height: 32),
+              
+              // Key Stats Row
+              Row(
+                children: [
+                  Expanded(child: _buildDetailStat('Duration', '1h 20m', Icons.timer_rounded)),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildDetailStat('Calories', '450 kcal', Icons.local_fire_department_rounded)),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(child: _buildDetailStat('Date', 'Yesterday', Icons.calendar_today_rounded)),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildDetailStat('Focus', 'Push Day', Icons.fitness_center_rounded)),
+                ],
+              ),
+              
+              const SizedBox(height: 32),
+              Text(
+                'Exercises Completed',
+                style: AppTextStyles.headlineLarge.copyWith(fontSize: 18),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView(
+                  children: [
+                    _buildExerciseItem('Bench Press', '4 sets x 10 reps'),
+                    _buildExerciseItem('Incline Dumbbell Press', '3 sets x 12 reps'),
+                    _buildExerciseItem('Cable Flyes', '3 sets x 15 reps'),
+                    _buildExerciseItem('Tricep Pushdowns', '4 sets x 12 reps'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailStat(String label, String value, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceLight,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: AppColors.primary, size: 20),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              Text(
+                label,
+                style: AppTextStyles.bodyMedium.copyWith(fontSize: 12, color: AppColors.textSecondary),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExerciseItem(String name, String details) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(255, 255, 255, 0.03),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color.fromRGBO(255, 255, 255, 0.05)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: const BoxDecoration(
+              color: AppColors.surfaceLight,
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.check_rounded, color: AppColors.primary, size: 16),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name, style: AppTextStyles.bodyLarge),
+              Text(details, style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary)),
+            ],
           ),
         ],
       ),
