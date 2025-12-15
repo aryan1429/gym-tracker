@@ -18,8 +18,9 @@ class WorkoutSessionScreen extends StatefulWidget {
   State<WorkoutSessionScreen> createState() => _WorkoutSessionScreenState();
 }
 
-class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
+class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with SingleTickerProviderStateMixin {
   late Timer _timer;
+  late AnimationController _glowController;
   int _secondsElapsed = 0;
   int _currentExerciseIndex = 0;
   final PageController _pageController = PageController();
@@ -51,6 +52,10 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
   @override
   void initState() {
     super.initState();
+    _glowController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
     _startTimer();
   }
 
@@ -71,6 +76,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
   @override
   void dispose() {
     _timer.cancel();
+    _glowController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -202,15 +208,36 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> {
             // Complete Button
             Padding(
               padding: const EdgeInsets.all(24.0),
-              child: NeonButton(
-                text: _currentExerciseIndex == _exercises.length - 1
-                    ? 'FINISH WORKOUT'
-                    : 'COMPLETE EXERCISE',
-                onPressed: _completeExercise,
-                animate: true,
-                color: _currentExerciseIndex == _exercises.length - 1
-                    ? AppColors.primary
-                    : AppColors.surfaceLight,
+              child: AnimatedBuilder(
+                animation: _glowController,
+                builder: (context, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.2 + 0.4 * _glowController.value),
+                          blurRadius: 8 + 10 * _glowController.value,
+                          spreadRadius: 1 + 2 * _glowController.value,
+                        ),
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.1 + 0.2 * _glowController.value),
+                          blurRadius: 20 + 20 * _glowController.value,
+                          spreadRadius: 5 + 10 * _glowController.value,
+                        ),
+                      ],
+                    ),
+                    child: child,
+                  );
+                },
+                child: NeonButton(
+                  text: _currentExerciseIndex == _exercises.length - 1
+                      ? 'FINISH WORKOUT'
+                      : 'COMPLETE EXERCISE',
+                  onPressed: _completeExercise,
+                  animate: true,
+                  color: AppColors.primary,
+                ),
               ),
             ),
           ],
