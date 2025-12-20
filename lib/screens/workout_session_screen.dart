@@ -157,6 +157,44 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
           'notes': 'Seated or standing. Core tight.',
         },
       ];
+    } else if (widget.workoutName == 'Legs (Hams)') {
+      return [
+        {
+          'name': 'Stretches & Warmup',
+          'sets': '5 mins',
+          'notes': 'Stiff leg toe touches, hip rotations. 2 x 20 Bodyweight Squats.',
+        },
+        {
+          'name': 'Leg Curls',
+          'sets': '3 Sets x 15-12-10 Reps',
+          'notes': 'Control the eccentric.',
+        },
+        {
+          'name': 'Supported RDLs',
+          'sets': '2 Sets x 12-10 Reps',
+          'notes': 'Hinge at hips, slight knee bend. Feel the stretch.',
+        },
+        {
+          'name': 'Lunges',
+          'sets': '2 Sets',
+          'notes': 'Walking or stationary. Keep core tight.',
+        },
+        {
+          'name': 'Leg Extensions',
+          'sets': '3 Sets x 15-20 Reps',
+          'notes': 'Squeeze quads at the top.',
+        },
+        {
+          'name': 'Hip Abduction Machine',
+          'sets': '2 Sets x 12-15 Reps',
+          'notes': 'Control the movement.',
+        },
+        {
+          'name': 'Calf Raises',
+          'sets': '3 Sets x Failure',
+          'notes': 'Full range of motion. Pause at bottom.',
+        },
+      ];
     }
     
     // Fallback Mock Data for other days
