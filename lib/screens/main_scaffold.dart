@@ -28,7 +28,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true, // Important for glass effect
-      body: IndexedStack(
+      body: AnimatedIndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
@@ -40,6 +40,77 @@ class _MainScaffoldState extends State<MainScaffold> {
           });
         },
       ),
+    );
+  }
+}
+
+class AnimatedIndexedStack extends StatefulWidget {
+  final int index;
+  final List<Widget> children;
+
+  const AnimatedIndexedStack({
+    super.key,
+    required this.index,
+    required this.children,
+  });
+
+  @override
+  State<AnimatedIndexedStack> createState() => _AnimatedIndexedStackState();
+}
+
+class _AnimatedIndexedStackState extends State<AnimatedIndexedStack> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+  late int _index;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    );
+    _index = widget.index;
+    _controller.forward();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(AnimatedIndexedStack oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.index != _index) {
+      _controller.reverse().then((_) {
+        setState(() => _index = widget.index);
+        _controller.forward();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _controller.value,
+          child: Transform.scale(
+            scale: 0.95 + (_controller.value * 0.05),
+            child: IndexedStack(
+              index: _index,
+              children: widget.children,
+            ),
+          ),
+        );
+      },
     );
   }
 }

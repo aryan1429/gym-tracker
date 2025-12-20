@@ -10,8 +10,15 @@ class WorkoutScreen extends StatelessWidget {
   void _navigateToSession(BuildContext context, String workoutName) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => WorkoutSessionScreen(workoutName: workoutName),
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => WorkoutSessionScreen(workoutName: workoutName),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0); // Slide from right for detail views
+          const end = Offset.zero;
+          const curve = Curves.easeOutCubic;
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          return SlideTransition(position: animation.drive(tween), child: child);
+        },
       ),
     );
   }

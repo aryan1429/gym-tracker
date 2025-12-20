@@ -126,10 +126,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             }
-            // Navigate regardless of photo success (user might skip or cancel camera)
+            // Navigate regardless
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const WorkoutSelectionScreen()),
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) => const WorkoutSelectionScreen(),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(0.0, 1.0);
+                  const end = Offset.zero;
+                  const curve = Curves.easeOutCubic;
+                  var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                  return SlideTransition(position: animation.drive(tween), child: child);
+                },
+              ),
             );
           }
         },
