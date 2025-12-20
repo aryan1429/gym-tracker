@@ -115,7 +115,11 @@ class _HomeScreenState extends State<HomeScreen> {
           context.read<PhotoProvider>().capturePhoto();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text('Opening Camera...'),
+              content: const Text('Opening Camera...')
+                  .animate()
+                  .slideX(begin: -0.2, end: 0, 
+                    duration: 400.ms, curve: Curves.easeOutCubic)
+                  .fadeIn(),
               backgroundColor: AppColors.primary.withOpacity(0.8),
               behavior: SnackBarBehavior.floating,
             ),
