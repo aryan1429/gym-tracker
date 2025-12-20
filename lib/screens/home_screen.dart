@@ -111,19 +111,27 @@ class _HomeScreenState extends State<HomeScreen> {
     return Center(
       child: NeonButton(
         text: 'START WORKOUT',
-        onPressed: () {
-          context.read<PhotoProvider>().capturePhoto();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('Opening Camera...')
-                  .animate()
-                  .slideX(begin: -0.2, end: 0, 
-                    duration: 400.ms, curve: Curves.easeOutCubic)
-                  .fadeIn(),
-              backgroundColor: AppColors.primary.withOpacity(0.8),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
+        onPressed: () async {
+          final success = await context.read<PhotoProvider>().capturePhoto();
+          if (context.mounted) {
+            if (success) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: const Text('Photo Saved! Selecting Workout...')
+                      .animate()
+                      .slideX(begin: -0.2, end: 0, duration: 400.ms, curve: Curves.easeOutCubic)
+                      .fadeIn(),
+                  backgroundColor: AppColors.primary.withOpacity(0.8),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            }
+            // Navigate regardless of photo success (user might skip or cancel camera)
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const WorkoutSelectionScreen()),
+            );
+          }
         },
         animate: true,
       ),

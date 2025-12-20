@@ -18,7 +18,7 @@ class PhotoProvider extends ChangeNotifier {
 
   // For demo purposes, we allow forcing a date to simulate testing historical albums
   // In production, this would just use DateTime.now()
-  Future<void> capturePhoto({DateTime? overrideDate}) async {
+  Future<bool> capturePhoto({DateTime? overrideDate}) async {
     try {
       // Use camera source - this opens the actual camera on mobile devices
       // On web/desktop it may fall back to file picker
@@ -30,9 +30,12 @@ class PhotoProvider extends ChangeNotifier {
       
       if (photo != null) {
         _savePhoto(photo, overrideDate ?? DateTime.now());
+        return true;
       }
+      return false;
     } catch (e) {
       debugPrint('Error capturing photo: $e');
+      return false;
     }
   }
 
