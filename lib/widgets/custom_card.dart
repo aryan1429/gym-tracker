@@ -19,6 +19,7 @@ class CustomCard extends StatefulWidget {
 
 class _CustomCardState extends State<CustomCard> {
   bool _isHovered = false;
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +29,15 @@ class _CustomCardState extends State<CustomCard> {
       cursor: widget.onTap != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
       child: GestureDetector(
         onTap: widget.onTap,
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOutCubic,
           padding: widget.padding ?? const EdgeInsets.all(16),
-          transform: Matrix4.identity()..scale(_isHovered ? 1.02 : 1.0),
+          transform: Matrix4.identity()
+            ..scale(_isPressed ? 0.95 : (_isHovered ? 1.02 : 1.0)),
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(20),
