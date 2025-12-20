@@ -195,6 +195,49 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
           'notes': 'Full range of motion. Pause at bottom.',
         },
       ];
+    } else if (widget.workoutName == 'Legs (Quads)') {
+      return [
+        {
+          'name': 'Stretches & Mobility',
+          'sets': '5 mins',
+          'notes': 'Ankle & Hip mobility. 2 x 15-12 Bodyweight Squats.',
+        },
+        {
+          'name': 'Barbell Squats',
+          'sets': '3 Sets x 10-8-8 Reps',
+          'notes': 'Depth is key. brace core.',
+        },
+        {
+          'name': 'Leg Extensions',
+          'sets': '4 Sets x 15-20 Reps',
+          'notes': 'High volume. Squeeze at top.',
+        },
+        {
+          'name': 'Leg Press',
+          'sets': '3 Sets x 15-12 Reps',
+          'notes': 'Full ROM. Don\'t lock knees.',
+        },
+        {
+          'name': 'Leg Curls',
+          'sets': '3 Sets x 15-12-12 Reps',
+          'notes': 'Hamstring balance.',
+        },
+        {
+          'name': 'Hip Abduction Machine',
+          'sets': '2 Sets x 15 Reps',
+          'notes': 'Glute focus.',
+        },
+        {
+          'name': 'Calf Raises',
+          'sets': '2 Sets x Failure',
+          'notes': 'Burn it out.',
+        },
+        {
+          'name': 'Post-Workout Stretch',
+          'sets': '2 x 30s',
+          'notes': 'Hip Flexor stretch.',
+        },
+      ];
     }
     
     // Fallback Mock Data for other days
