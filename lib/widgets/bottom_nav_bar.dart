@@ -96,6 +96,7 @@ class _NavBarItemState extends State<NavBarItem>
   late Animation<double> _glowAnimation;
 
   bool _isPressed = false;
+  bool? _isHovered = false;
 
   @override
   void initState() {
@@ -169,85 +170,104 @@ class _NavBarItemState extends State<NavBarItem>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: _handleTapDown,
-      onTapUp: _handleTapUp,
-      onTapCancel: _handleTapCancel,
-      behavior: HitTestBehavior.opaque,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: SizedBox(
-          width: 60,
-          height: 60,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // Ripple effect
-              AnimatedBuilder(
-                animation: _rippleAnimation,
-                builder: (context, child) {
-                  return Container(
-                    width: 50 * _rippleAnimation.value,
-                    height: 50 * _rippleAnimation.value,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.primary.withOpacity(
-                        0.3 * (1 - _rippleAnimation.value),
+    final isHovering = _isHovered ?? false;
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTapDown: _handleTapDown,
+        onTapUp: _handleTapUp,
+        onTapCancel: _handleTapCancel,
+        behavior: HitTestBehavior.opaque,
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: SizedBox(
+            width: 60,
+            height: 60,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Ripple effect
+                AnimatedBuilder(
+                  animation: _rippleAnimation,
+                  builder: (context, child) {
+                    return Container(
+                      width: 50 * _rippleAnimation.value,
+                      height: 50 * _rippleAnimation.value,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primary.withOpacity(
+                          0.3 * (1 - _rippleAnimation.value),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                // Main content
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AnimatedBuilder(
+                      animation: _glowAnimation,
+                      builder: (context, child) {
+                        return AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: widget.isSelected
+                                ? const Color.fromRGBO(0, 255, 136, 0.2)
+                                : isHovering
+                                    ? const Color.fromRGBO(0, 255, 136, 0.1)
+                                    : Colors.transparent,
+                            shape: BoxShape.circle,
+                            boxShadow: widget.isSelected
+                                ? [
+                                    BoxShadow(
+                                      color: const Color.fromRGBO(0, 255, 136, 0.5),
+                                      blurRadius: 10 * _glowAnimation.value,
+                                      spreadRadius: 1 * _glowAnimation.value,
+                                    )
+                                  ]
+                                : isHovering
+                                    ? [
+                                        const BoxShadow(
+                                          color: Color.fromRGBO(0, 255, 136, 0.3),
+                                          blurRadius: 8,
+                                          spreadRadius: 0.5,
+                                        )
+                                      ]
+                                    : [],
+                          ),
+                          child: Icon(
+                            widget.icon,
+                            color: widget.isSelected
+                                ? AppColors.primary
+                                : isHovering
+                                    ? AppColors.primary.withOpacity(0.7)
+                                    : AppColors.textSecondary,
+                            size: 24,
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      widget.label,
+                      style: AppTextStyles.bodyMedium.copyWith(
+                        fontSize: 10,
+                        color: widget.isSelected
+                            ? AppColors.primary
+                            : AppColors.textSecondary,
+                        fontWeight:
+                            widget.isSelected ? FontWeight.bold : FontWeight.normal,
                       ),
                     ),
-                  );
-                },
-              ),
-              // Main content
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedBuilder(
-                    animation: _glowAnimation,
-                    builder: (context, child) {
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: widget.isSelected
-                              ? const Color.fromRGBO(0, 255, 136, 0.2)
-                              : Colors.transparent,
-                          shape: BoxShape.circle,
-                          boxShadow: widget.isSelected
-                              ? [
-                                  BoxShadow(
-                                    color: const Color.fromRGBO(0, 255, 136, 0.5),
-                                    blurRadius: 10 * _glowAnimation.value,
-                                    spreadRadius: 1 * _glowAnimation.value,
-                                  )
-                                ]
-                              : [],
-                        ),
-                        child: Icon(
-                          widget.icon,
-                          color: widget.isSelected
-                              ? AppColors.primary
-                              : AppColors.textSecondary,
-                          size: 24,
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    widget.label,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      fontSize: 10,
-                      color: widget.isSelected
-                          ? AppColors.primary
-                          : AppColors.textSecondary,
-                      fontWeight:
-                          widget.isSelected ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
