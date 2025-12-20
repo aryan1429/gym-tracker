@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          DateFormat('HH:mm').format(_currentTime),
+          DateFormat('h:mm a').format(_currentTime),
           style: AppTextStyles.displayLarge.copyWith(
             fontSize: 80,
             height: 0.9,
