@@ -66,25 +66,70 @@ class _ExerciseCardState extends State<ExerciseCard> {
               ),
               const SizedBox(height: 16),
               
-              // Notes
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(255, 171, 64, 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color.fromRGBO(255, 171, 64, 0.3)),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(Icons.info_outline, color: AppColors.warning, size: 20),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        widget.notes,
-                        style: AppTextStyles.bodyMedium.copyWith(color: AppColors.warning),
+              // Notes & History
+              Row(
+                children: [
+                   Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color.fromRGBO(255, 171, 64, 0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: const Color.fromRGBO(255, 171, 64, 0.3)),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('INSTRUCTIONS', style: TextStyle(color: AppColors.warning, fontSize: 10, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 4),
+                          Text(
+                            widget.notes,
+                            style: AppTextStyles.bodyMedium.copyWith(color: AppColors.warning, fontSize: 12),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('PREVIOUS BEST', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold)),
+                          SizedBox(height: 4),
+                          Text(
+                            '100kg x 8', // Mock data
+                            style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              
+              // Personal Notes Input
+              TextField(
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Add personal notes (e.g. Widen Grip)',
+                  hintStyle: const TextStyle(color: Colors.white24),
+                  filled: true,
+                  fillColor: AppColors.surfaceLight,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: const Icon(Icons.edit_note, color: Colors.white54),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
               ),
               const SizedBox(height: 24),
