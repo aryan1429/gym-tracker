@@ -29,29 +29,87 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
   int _currentExerciseIndex = 0;
   final PageController _pageController = PageController();
 
-  // Mock Data
-  final List<Map<String, String>> _exercises = [
-    {
-      'name': 'Deadlifts',
-      'sets': '4 Sets x 5-8 Reps',
-      'notes': 'Focus on form. Keep back straight.',
-    },
-    {
-      'name': 'Pull Ups',
-      'sets': '3 Sets x Failure',
-      'notes': 'Full ROM. Chin over bar.',
-    },
-    {
-      'name': 'Barbell Rows',
-      'sets': '3 Sets x 8-12 Reps',
-      'notes': 'Squeeze at the top.',
-    },
-    {
-      'name': 'Face Pulls',
-      'sets': '3 Sets x 15-20 Reps',
-      'notes': 'Focus on rear delts.',
-    },
-  ];
+  // Data Source
+  List<Map<String, String>> get _exercises {
+    if (widget.workoutName == 'Pull Day') {
+      return [
+        {
+          'name': 'Stretches (Lats & Back)',
+          'sets': '2 Sets x 30s',
+          'notes': 'Child\'s pose and separate lat stretches. Focus on deep breathing.',
+        },
+        {
+          'name': 'Pull Ups (Warmup)',
+          'sets': '2 Sets x 8-10 Reps',
+          'notes': 'Full ROM. Chin over bar. Control the eccentric.',
+        },
+        {
+          'name': 'Neutral Grip Lat Pulldown',
+          'sets': '3 Sets x 10-8-8 Reps',
+          'notes': 'Focus on driving elbows down.',
+        },
+        {
+          'name': 'Barbell Rows',
+          'sets': '3 Sets x 12-10-8 Reps',
+          'notes': 'Hinge at hips. Keep back neutral. Squeeze at top.',
+        },
+        {
+          'name': 'Single Arm Cable Rows',
+          'sets': '2 Sets x 12-8 Reps',
+          'notes': 'Full stretch at bottom. Rotation optional.',
+        },
+        {
+          'name': 'Chest Supported T-Bar/Machine Rows',
+          'sets': '2 Sets x 12-10 Reps',
+          'notes': 'Keep chest glued to pad. Eliminate momentum.',
+        },
+        {
+          'name': 'Lat Pullover',
+          'sets': '3 Sets x 12-10-10 Reps',
+          'notes': 'Use cable or dumbbell. Focus on the stretch.',
+        },
+        {
+          'name': 'Incline DB Curls',
+          'sets': '3 Sets x 12-Failure',
+          'notes': 'Full stretch on biceps. Keep elbows back.',
+        },
+        {
+          'name': 'Cable Hammer Curls',
+          'sets': '3 Sets x 12 Reps',
+          'notes': 'Rope attachment. Squeeze at peak.',
+        },
+        {
+          'name': 'Kelso Shrugs',
+          'sets': '3 Sets x 15-12-12 Reps',
+          'notes': 'Shrug focusing on mid-traps/scapula retraction.',
+        },
+        {
+          'name': 'Lower Back Extension',
+          'sets': '2 Sets x 12-10 Reps',
+          'notes': 'Controlled movement. Don\'t hyperextend.',
+        },
+        {
+          'name': 'Bar Forearm Curl',
+          'sets': '2 Sets x 15-20 Reps',
+          'notes': 'Burnout the forearms.',
+        },
+        {
+          'name': 'SUPERSET: Pronated + Reverse Curls',
+          'sets': '2 Sets x 12 Reps + Failure',
+          'notes': 'Perform Pronated Curls immediately followed by Reverse Curls.',
+        },
+      ];
+    }
+    
+    // Fallback Mock Data for other days
+    return [
+      {
+        'name': 'Exercise 1',
+        'sets': '3 Sets',
+        'notes': 'Placeholder for ${widget.workoutName}',
+      },
+    ];
+  }
 
   @override
   void initState() {
