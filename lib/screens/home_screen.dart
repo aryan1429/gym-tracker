@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStartButton() {
     return Center(
       child: NeonButton(
-        text: 'TAKE PHOTO',
+        text: 'START WORKOUT',
         onPressed: () {
           context.read<PhotoProvider>().capturePhoto();
           ScaffoldMessenger.of(context).showSnackBar(

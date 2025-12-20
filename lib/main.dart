@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'screens/main_scaffold.dart';
+import 'providers/photo_provider.dart';
 
 void main() {
-  runApp(const GymTrackerApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => PhotoProvider()),
+      ],
+      child: const GymTrackerApp(),
+    ),
+  );
 }
 
 class GymTrackerApp extends StatelessWidget {

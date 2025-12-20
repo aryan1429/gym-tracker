@@ -20,7 +20,13 @@ class PhotoProvider extends ChangeNotifier {
   // In production, this would just use DateTime.now()
   Future<void> capturePhoto({DateTime? overrideDate}) async {
     try {
-      final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+      // Use camera source - this opens the actual camera on mobile devices
+      // On web/desktop it may fall back to file picker
+      final XFile? photo = await _picker.pickImage(
+        source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.rear, // Use back camera on mobile
+        imageQuality: 85, // Compress slightly for storage efficiency
+      );
       
       if (photo != null) {
         _savePhoto(photo, overrideDate ?? DateTime.now());
