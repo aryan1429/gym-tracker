@@ -1,7 +1,10 @@
+import 'dart:io' as IO;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_card.dart';
+import '../providers/photo_provider.dart';
 
 class PhotosScreen extends StatefulWidget {
   const PhotosScreen({super.key});
@@ -13,17 +16,17 @@ class PhotosScreen extends StatefulWidget {
 class _PhotosScreenState extends State<PhotosScreen> {
   String? _selectedMonth;
 
-  final Map<String, int> _albums = {
-    'December 2024': 12,
-    'November 2024': 18,
-    'October 2024': 15,
-    'September 2024': 8,
-    'August 2024': 20,
-    'July 2024': 14,
-  };
-
   @override
   Widget build(BuildContext context) {
+    return Consumer<PhotoProvider>(
+      builder: (context, photoProvider, child) {
+        final albums = photoProvider.albums;
+        // Filter out empty albums if desired, or keep them
+         // Ensuring selected month still exists incase of data change (unlikely here but good practice)
+        if (_selectedMonth != null && !albums.containsKey(_selectedMonth)) {
+             _selectedMonth = null;
+        }
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -73,8 +76,8 @@ class _PhotosScreenState extends State<PhotosScreen> {
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: _selectedMonth == null 
-                      ? _buildAlbumList() 
-                      : _buildGalleryView(),
+                      ? _buildAlbumList(albums) 
+                      : _buildGalleryView(albums),
                 ),
               ),
             ],
@@ -82,21 +85,32 @@ class _PhotosScreenState extends State<PhotosScreen> {
         ),
       ),
     );
+      }
+    );
   }
 
-  Widget _buildAlbumList() {
+  Widget _buildAlbumList(Map<String, List<String>> albums) {
+    if (albums.isEmpty) {
+      return Center(
+        child: Text('No photos yet.\nStart a workout to take one!', 
+          textAlign: TextAlign.center,
+          style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary)
+        ),
+      );
+    }
     return GridView.builder(
       key: const ValueKey('album_list'),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        childAspectRatio: 0.75, // Made taller to prevent overflow
+        childAspectRatio: 0.75,
       ),
-      itemCount: _albums.length,
+      itemCount: albums.length,
       itemBuilder: (context, index) {
-        final month = _albums.keys.elementAt(index);
-        final count = _albums[month]!;
+        final month = albums.keys.elementAt(index);
+        final count = albums[month]!.length;
+        
         return CustomCard(
           onTap: () => setState(() => _selectedMonth = month),
           padding: EdgeInsets.zero,
@@ -153,7 +167,13 @@ class _PhotosScreenState extends State<PhotosScreen> {
     );
   }
 
-  Widget _buildGalleryView() {
+  Widget _buildGalleryView(Map<String, List<String>> albums) {
+    final photos = albums[_selectedMonth] ?? [];
+    
+    if (photos.isEmpty) {
+       return Center(child: Text('No photos in this album', style: AppTextStyles.bodyLarge));
+    }
+
     return GridView.builder(
       key: ValueKey('gallery_$_selectedMonth'),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -162,16 +182,23 @@ class _PhotosScreenState extends State<PhotosScreen> {
         mainAxisSpacing: 16,
         childAspectRatio: 0.8,
       ),
-      itemCount: _albums[_selectedMonth] ?? 0,
+      itemCount: photos.length,
       itemBuilder: (context, index) {
-        return _buildPhotoItem(context, index);
+        return _buildPhotoItem(context, photos[index], index);
       },
     );
   }
 
-  Widget _buildPhotoItem(BuildContext context, int index) {
+  Widget _buildPhotoItem(BuildContext context, String imagePath, int index) {
+    // Determine if network or file
+    // For demo simplicity, assuming http indicates network
+    final isNetwork = imagePath.startsWith('http');
+    final ImageProvider imageProvider = isNetwork 
+        ? NetworkImage(imagePath) 
+        : FileImage(IO.File(imagePath)) as ImageProvider;
+
     return GestureDetector(
-      onTap: () => _showPhotoDetail(context, index),
+      onTap: () => _showPhotoDetail(context, imagePath, index),
       child: Hero(
         tag: 'photo_${_selectedMonth}_$index',
         child: Container(
@@ -179,9 +206,9 @@ class _PhotosScreenState extends State<PhotosScreen> {
             borderRadius: BorderRadius.circular(20),
             color: AppColors.surfaceLight,
             image: DecorationImage(
-              image: const NetworkImage('https://picsum.photos/300/400'), // More reliable placeholder
+              image: imageProvider,
               fit: BoxFit.cover,
-              onError: (exception, stackTrace) {}, // Suppress errors
+              onError: (exception, stackTrace) {}, 
             ),
           ),
           child: Container(
@@ -217,7 +244,9 @@ class _PhotosScreenState extends State<PhotosScreen> {
     ).animate().fadeIn(delay: (50 * index).ms).scale();
   }
 
-  void _showPhotoDetail(BuildContext context, int index) {
+  void _showPhotoDetail(BuildContext context, String imagePath, int index) {
+    final isNetwork = imagePath.startsWith('http');
+    
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -230,23 +259,9 @@ class _PhotosScreenState extends State<PhotosScreen> {
           body: Center(
             child: Hero(
               tag: 'photo_${_selectedMonth}_$index',
-              child: Image.network(
-                'https://picsum.photos/600/800',
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.broken_image_rounded, color: Colors.white54, size: 64),
-                      const SizedBox(height: 16),
-                      Text(
-                        'Could not load image',
-                        style: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
-                      ),
-                    ],
-                  );
-                },
-              ),
+              child: isNetwork 
+               ? Image.network(imagePath, fit: BoxFit.contain)
+               : Image.file(IO.File(imagePath), fit: BoxFit.contain),
             ),
           ),
         ),

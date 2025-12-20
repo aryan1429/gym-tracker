@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+import '../providers/photo_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/custom_card.dart';
@@ -108,11 +110,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildStartButton() {
     return Center(
       child: NeonButton(
-        text: 'START WORKOUT',
+        text: 'TAKE PHOTO',
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const WorkoutSelectionScreen()),
+          context.read<PhotoProvider>().capturePhoto();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: const Text('Opening Camera...'),
+              backgroundColor: AppColors.primary.withOpacity(0.8),
+              behavior: SnackBarBehavior.floating,
+            ),
           );
         },
         animate: true,
