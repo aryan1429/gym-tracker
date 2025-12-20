@@ -150,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Type',
                 value: 'Push Day',
                 icon: Icons.fitness_center_outlined,
+                onTap: () => _showWorkoutTypeDetails(context),
               ),
             ),
           ],
@@ -319,6 +320,131 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showWorkoutTypeDetails(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) => GlassContainer(
+        height: MediaQuery.of(context).size.height * 0.6,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: const Color.fromRGBO(255, 255, 255, 0.2),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Row(
+                children: [
+                   Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.fitness_center_rounded, color: AppColors.primary, size: 32),
+                   ),
+                   const SizedBox(width: 16),
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: [
+                       Text(
+                         'Push Day',
+                         style: AppTextStyles.headlineLarge,
+                       ),
+                       Text(
+                         'Chest, Shoulders & Triceps',
+                         style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                       ),
+                     ],
+                   ),
+                ],
+              ),
+              const SizedBox(height: 32),
+              
+              Text(
+                'Focus Areas',
+                style: AppTextStyles.headlineLarge.copyWith(fontSize: 18),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(child: _buildDetailStat('Main Focus', 'Chest', Icons.accessibility_new_rounded)),
+                  const SizedBox(width: 16),
+                  Expanded(child: _buildDetailStat('Secondary', 'Triceps', Icons.offline_bolt_rounded)),
+                ],
+              ),
+              
+              const SizedBox(height: 32),
+              Text(
+                'Weekly Schedule',
+                style: AppTextStyles.headlineLarge.copyWith(fontSize: 18),
+              ),
+              const SizedBox(height: 16),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 255, 255, 0.03),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: const Color.fromRGBO(255, 255, 255, 0.05)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildDayStatus('M', true, true),
+                    _buildDayStatus('T', false, false),
+                    _buildDayStatus('W', false, false),
+                    _buildDayStatus('T', true, false),
+                    _buildDayStatus('F', false, false),
+                    _buildDayStatus('S', false, false),
+                    _buildDayStatus('S', false, false),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDayStatus(String day, bool isPushDay, bool isCompleted) {
+    return Column(
+      children: [
+        Text(
+          day,
+          style: AppTextStyles.bodyMedium.copyWith(
+            color: isPushDay ? AppColors.primary : AppColors.textSecondary,
+            fontWeight: isPushDay ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          width: 8,
+          height: 8,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isCompleted 
+                ? AppColors.primary 
+                : isPushDay 
+                    ? AppColors.primary.withOpacity(0.2) 
+                    : Colors.transparent,
+          ),
+        ),
+      ],
     );
   }
 }
