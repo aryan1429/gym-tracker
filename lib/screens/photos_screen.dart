@@ -91,7 +91,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
         crossAxisCount: 2,
         crossAxisSpacing: 16,
         mainAxisSpacing: 16,
-        childAspectRatio: 0.85,
+        childAspectRatio: 0.75, // Made taller to prevent overflow
       ),
       itemCount: _albums.length,
       itemBuilder: (context, index) {
@@ -178,9 +178,10 @@ class _PhotosScreenState extends State<PhotosScreen> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: AppColors.surfaceLight,
-            image: const DecorationImage(
-              image: NetworkImage('https://via.placeholder.com/300x400'), // Placeholder
+            image: DecorationImage(
+              image: const NetworkImage('https://picsum.photos/300/400'), // More reliable placeholder
               fit: BoxFit.cover,
+              onError: (exception, stackTrace) {}, // Suppress errors
             ),
           ),
           child: Container(
@@ -230,8 +231,21 @@ class _PhotosScreenState extends State<PhotosScreen> {
             child: Hero(
               tag: 'photo_${_selectedMonth}_$index',
               child: Image.network(
-                'https://via.placeholder.com/600x800',
+                'https://picsum.photos/600/800',
                 fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.broken_image_rounded, color: Colors.white54, size: 64),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Could not load image',
+                        style: AppTextStyles.bodyMedium.copyWith(color: Colors.white54),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),
