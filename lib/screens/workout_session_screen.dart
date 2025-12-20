@@ -99,6 +99,64 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
           'notes': 'Perform Pronated Curls immediately followed by Reverse Curls.',
         },
       ];
+    } else if (widget.workoutName == 'Push Day') {
+      return [
+        {
+          'name': 'Joint Warmup (Shoulders/Elbows)',
+          'sets': '5 mins',
+          'notes': 'Rotations and dynamic stretching for safety.',
+        },
+        {
+          'name': 'Pushups (Warmup)',
+          'sets': '1 Set x 60 Reps',
+          'notes': 'Get blood flowing. Break into sets if needed.',
+        },
+        {
+          'name': 'Smith Incline Bench Press',
+          'sets': '3 Sets x 12-10-8 Reps',
+          'notes': 'Controlled negative. Explode up.',
+        },
+        {
+          'name': 'Cable Flys',
+          'sets': '3 Sets x 12-10-8 Reps',
+          'notes': 'Last set drop set until failure. Squeeze chest.',
+        },
+        {
+          'name': 'Flying Machine', // Assuming Peck Deck
+          'sets': '2 Sets x Failure',
+          'notes': 'Constant tension. Full range of motion.',
+        },
+        {
+          'name': 'Manual Dips',
+          'sets': '2 Sets x Failure',
+          'notes': 'Lean forward for chest focus.',
+        },
+        {
+          'name': 'Smith Machine Shoulder Press',
+          'sets': '3 Sets x 12-10-8 Reps',
+          'notes': 'Bar near chin level at bottom.',
+        },
+        {
+          'name': 'Cable Lateral Raises',
+          'sets': '3 Sets x 12-6 Reps',
+          'notes': 'Lead with elbows. Control the weight.',
+        },
+        {
+          'name': 'Face Pulls',
+          'sets': '3 Sets x 12-12-10 Reps',
+          'notes': 'External rotation focus.',
+        },
+        {
+          'name': 'SUPERSET: Rope Pushdown + Dips',
+          'sets': '3 Sets x Failure + 12-15 Reps',
+          'notes': 'Rope Pushdowns to failure immediately into Tricep Dips.',
+        },
+        {
+          'name': 'Dumbbell Overhead Press',
+          'sets': '2 Sets x 12 Reps',
+          'notes': 'Seated or standing. Core tight.',
+        },
+      ];
     }
     
     // Fallback Mock Data for other days
