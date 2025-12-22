@@ -44,7 +44,8 @@ class _SplashScreenState extends State<SplashScreen> {
             const Spacer(),
             // Logo / Icon
             Container(
-              padding: const EdgeInsets.all(30),
+              width: 180,
+              height: 180,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.primary.withOpacity(0.1),
@@ -56,12 +57,15 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ],
               ),
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/gym_logo.png',
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.cover,
+              child: Center(
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/gym_logo.png',
+                    width: 180,
+                    height: 180,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                  ),
                 ),
               ),
             ).animate()
