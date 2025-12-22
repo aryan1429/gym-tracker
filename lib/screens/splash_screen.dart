@@ -43,9 +43,10 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             const Spacer(),
             // Logo / Icon
+            // Logo / Icon
             Container(
-              width: 180,
-              height: 180,
+              width: 140,
+              height: 140,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.primary.withOpacity(0.1),
@@ -61,19 +62,20 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: ClipOval(
                   child: Image.asset(
                     'assets/images/gym_logo.png',
-                    width: 180,
-                    height: 180,
+                    width: 140,
+                    height: 140,
                     fit: BoxFit.cover,
                     alignment: Alignment.center,
                   ),
                 ),
               ),
-            ).animate()
-             .scale(duration: 1.seconds, curve: Curves.easeInOut)
-             .then(delay: 500.ms)
-             .shimmer(duration: 1.seconds, color: Colors.white)
-             .then()
-             .fade(duration: 800.ms, begin: 1, end: 0, delay: 1200.ms),
+            ).animate(onPlay: (controller) => controller.repeat())
+             .rotate(duration: 2.seconds, curve: Curves.easeInOutCubic)
+             .shimmer(duration: 1.5.seconds, color: Colors.white.withOpacity(0.5))
+             .animate() // Separate chain for entrance/exit
+             .scale(duration: 600.ms, curve: Curves.easeOutBack)
+             .then(delay: 2000.ms)
+             .fade(duration: 400.ms, begin: 1, end: 0),
 
             const SizedBox(height: 40),
             
