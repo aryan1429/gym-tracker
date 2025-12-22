@@ -56,10 +56,13 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.fitness_center_rounded,
-                size: 80,
-                color: AppColors.primary,
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/gym_logo.png',
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
+                ),
               ),
             ).animate()
              .scale(duration: 1.seconds, curve: Curves.easeInOut)
