@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/workout_plan_card.dart';
-import 'workout_session_screen.dart';
+import 'workout_info_screen.dart';
 
 class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({super.key});
 
-  void _navigateToSession(BuildContext context, String workoutName) {
+  void _navigateToInfo(BuildContext context, String workoutName) {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => WorkoutSessionScreen(workoutName: workoutName),
+        pageBuilder: (context, animation, secondaryAnimation) => WorkoutInfoScreen(workoutName: workoutName),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(1.0, 0.0); // Slide from right for detail views
           const end = Offset.zero;
@@ -55,7 +55,7 @@ class WorkoutScreen extends StatelessWidget {
                       icon: Icons.fitness_center,
                       isSuggested: false,
                       index: 0,
-                      onTap: () => _navigateToSession(context, 'Pull Day'),
+                      onTap: () => _navigateToInfo(context, 'Pull Day'),
                     ),
                     WorkoutPlanCard(
                       title: 'Push Day',
@@ -64,7 +64,7 @@ class WorkoutScreen extends StatelessWidget {
                       icon: Icons.accessibility_new_rounded,
                       isSuggested: false, // In library view, we don't necessarily highlight one
                       index: 1,
-                      onTap: () => _navigateToSession(context, 'Push Day'),
+                      onTap: () => _navigateToInfo(context, 'Push Day'),
                     ),
                     WorkoutPlanCard(
                       title: 'Legs (Quads)',
@@ -73,7 +73,7 @@ class WorkoutScreen extends StatelessWidget {
                       icon: Icons.directions_run_rounded,
                       isSuggested: false,
                       index: 2,
-                      onTap: () => _navigateToSession(context, 'Legs (Quads)'),
+                      onTap: () => _navigateToInfo(context, 'Legs (Quads)'),
                     ),
                     WorkoutPlanCard(
                       title: 'Legs (Hams)',
@@ -82,7 +82,7 @@ class WorkoutScreen extends StatelessWidget {
                       icon: Icons.directions_walk_rounded,
                       isSuggested: false,
                       index: 3,
-                      onTap: () => _navigateToSession(context, 'Legs (Hams)'),
+                      onTap: () => _navigateToInfo(context, 'Legs (Hams)'),
                     ),
                      WorkoutPlanCard(
                       title: 'Full Body',
@@ -91,7 +91,7 @@ class WorkoutScreen extends StatelessWidget {
                       icon: Icons.bolt_rounded,
                       isSuggested: false,
                       index: 4,
-                      onTap: () => _navigateToSession(context, 'Full Body'),
+                      onTap: () => _navigateToInfo(context, 'Full Body'),
                     ),
                     const SizedBox(height: 100), // Spacing for bottom nav
                   ],
