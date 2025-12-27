@@ -60,16 +60,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               child: Center(
                 child: ClipOval(
-                  child: Transform.scale(
-                    scale: 1.2, // Zoom to remove whitespace
-                    child: Image.asset(
+                  child: Image.asset(
                       'assets/images/gym_logo.png',
                       width: 140,
                       height: 140,
                       fit: BoxFit.cover,
                       alignment: Alignment.center,
                     ),
-                  ),
                 ),
               ),
             ).animate(onPlay: (controller) => controller.repeat())

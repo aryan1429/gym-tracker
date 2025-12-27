@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_container.dart';
+import '../widgets/neon_button.dart';
+import '../data/exercise_data.dart';
+import 'workout_session_screen.dart';
 
 class WorkoutInfoScreen extends StatelessWidget {
   final String workoutName;
@@ -11,259 +14,8 @@ class WorkoutInfoScreen extends StatelessWidget {
     required this.workoutName,
   });
 
-  // Exercise data with GIF URLs from JEFIT/similar resources
-  List<Map<String, String>> get _exercises {
-    if (workoutName == 'Pull Day') {
-      return [
-        {
-          'name': 'Stretches (Lats & Back)',
-          'image': 'https://media.tenor.com/images/e15f9c63b3cc61f0d95e2bbfe9e9e31a/tenor.gif',
-          'target': 'Mobility',
-        },
-        {
-          'name': 'Pull Ups',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
-          'target': 'Back, Biceps',
-        },
-        {
-          'name': 'Neutral Grip Lat Pulldown',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Close-Grip-Lat-Pulldown.gif',
-          'target': 'Lats',
-        },
-        {
-          'name': 'Barbell Rows',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
-          'target': 'Back',
-        },
-        {
-          'name': 'Single Arm Cable Rows',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/One-Arm-Cable-Row.gif',
-          'target': 'Back',
-        },
-        {
-          'name': 'Chest Supported T-Bar Rows',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Lever-T-bar-Row.gif',
-          'target': 'Upper Back',
-        },
-        {
-          'name': 'Lat Pullover',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Pullover.gif',
-          'target': 'Lats',
-        },
-        {
-          'name': 'Incline DB Curls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Incline-Dumbbell-Curl.gif',
-          'target': 'Biceps',
-        },
-        {
-          'name': 'Cable Hammer Curls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Hammer-Curl.gif',
-          'target': 'Biceps, Forearms',
-        },
-        {
-          'name': 'Kelso Shrugs',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shrug.gif',
-          'target': 'Traps',
-        },
-        {
-          'name': 'Lower Back Extension',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Back-Extension.gif',
-          'target': 'Lower Back',
-        },
-        {
-          'name': 'Forearm Curls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Wrist-Curl.gif',
-          'target': 'Forearms',
-        },
-      ];
-    } else if (workoutName == 'Push Day') {
-      return [
-        {
-          'name': 'Joint Warmup',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/06/Arm-Circles.gif',
-          'target': 'Mobility',
-        },
-        {
-          'name': 'Pushups',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-          'target': 'Chest, Triceps',
-        },
-        {
-          'name': 'Smith Incline Bench Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Smith-Machine-Incline-Bench-Press.gif',
-          'target': 'Upper Chest',
-        },
-        {
-          'name': 'Cable Flys',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/09/Low-Cable-Fly.gif',
-          'target': 'Chest',
-        },
-        {
-          'name': 'Peck Deck Machine',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pec-Deck-Fly.gif',
-          'target': 'Chest',
-        },
-        {
-          'name': 'Dips',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Triceps-Dip.gif',
-          'target': 'Chest, Triceps',
-        },
-        {
-          'name': 'Smith Shoulder Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Smith-Machine-Shoulder-Press.gif',
-          'target': 'Shoulders',
-        },
-        {
-          'name': 'Cable Lateral Raises',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Cable-Lateral-Raise.gif',
-          'target': 'Side Delts',
-        },
-        {
-          'name': 'Face Pulls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Face-Pull.gif',
-          'target': 'Rear Delts',
-        },
-        {
-          'name': 'Rope Pushdowns',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pushdown.gif',
-          'target': 'Triceps',
-        },
-        {
-          'name': 'Dumbbell Overhead Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Shoulder-Press.gif',
-          'target': 'Shoulders',
-        },
-      ];
-    } else if (workoutName == 'Legs (Hams)') {
-      return [
-        {
-          'name': 'Stretches & Warmup',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/04/Hip-Circles.gif',
-          'target': 'Mobility',
-        },
-        {
-          'name': 'Leg Curls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
-          'target': 'Hamstrings',
-        },
-        {
-          'name': 'Romanian Deadlifts',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Romanian-Deadlift.gif',
-          'target': 'Hamstrings, Glutes',
-        },
-        {
-          'name': 'Lunges',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Dumbbell-Lunge.gif',
-          'target': 'Legs',
-        },
-        {
-          'name': 'Leg Extensions',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Extension.gif',
-          'target': 'Quads',
-        },
-        {
-          'name': 'Hip Abduction Machine',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
-          'target': 'Glutes',
-        },
-        {
-          'name': 'Calf Raises',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Raise.gif',
-          'target': 'Calves',
-        },
-      ];
-    } else if (workoutName == 'Legs (Quads)') {
-      return [
-        {
-          'name': 'Stretches & Mobility',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/04/Hip-Circles.gif',
-          'target': 'Mobility',
-        },
-        {
-          'name': 'Barbell Squats',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Squat.gif',
-          'target': 'Quads, Glutes',
-        },
-        {
-          'name': 'Leg Extensions',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Extension.gif',
-          'target': 'Quads',
-        },
-        {
-          'name': 'Leg Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Press.gif',
-          'target': 'Quads',
-        },
-        {
-          'name': 'Leg Curls',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Leg-Curl.gif',
-          'target': 'Hamstrings',
-        },
-        {
-          'name': 'Hip Abduction Machine',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Hip-Abduction-Machine.gif',
-          'target': 'Glutes',
-        },
-        {
-          'name': 'Calf Raises',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Calf-Raise.gif',
-          'target': 'Calves',
-        },
-      ];
-    } else if (workoutName == 'Full Body') {
-      return [
-        {
-          'name': 'Warmup (Dynamic Stretches)',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/06/Arm-Circles.gif',
-          'target': 'Mobility',
-        },
-        {
-          'name': 'Deadlifts',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Deadlift.gif',
-          'target': 'Full Body',
-        },
-        {
-          'name': 'Bench Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bench-Press.gif',
-          'target': 'Chest',
-        },
-        {
-          'name': 'Barbell Rows',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Bent-Over-Row.gif',
-          'target': 'Back',
-        },
-        {
-          'name': 'Overhead Press',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Shoulder-Press.gif',
-          'target': 'Shoulders',
-        },
-        {
-          'name': 'Squats',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Barbell-Squat.gif',
-          'target': 'Legs',
-        },
-        {
-          'name': 'Pull Ups',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Pull-up.gif',
-          'target': 'Back, Biceps',
-        },
-        {
-          'name': 'Dips',
-          'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Triceps-Dip.gif',
-          'target': 'Chest, Triceps',
-        },
-      ];
-    }
-
-    // Fallback
-    return [
-      {
-        'name': 'Exercise',
-        'image': 'https://fitnessprogramer.com/wp-content/uploads/2021/02/Push-Up.gif',
-        'target': 'General',
-      },
-    ];
-  }
+  // Data from shared source
+  List<Map<String, String>> get _exercises => ExerciseData.getExercises(workoutName);
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +37,7 @@ class WorkoutInfoScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 8),
               Text(
@@ -319,6 +71,23 @@ class WorkoutInfoScreen extends StatelessWidget {
                   },
                 ),
               ),
+              const SizedBox(height: 16),
+              
+              // Start Workout Button
+              SizedBox(
+                child: NeonButton(
+                  text: 'START WORKOUT',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WorkoutSessionScreen(workoutName: workoutName),
+                      ),
+                    );
+                  },
+                  color: AppColors.primary,
+                ),
+              ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.2, end: 0),
               const SizedBox(height: 16),
             ],
           ),
