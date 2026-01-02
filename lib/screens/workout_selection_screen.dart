@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../theme/app_theme.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../widgets/workout_plan_card.dart';
+import '../widgets/main_background.dart';
 import 'workout_session_screen.dart';
 
 class WorkoutSelectionScreen extends StatelessWidget {
@@ -11,7 +13,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final today = DateFormat('EEEE').format(DateTime.now());
 
-    return Scaffold(
+    return MainBackground(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -20,21 +22,20 @@ class WorkoutSelectionScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Choose Today\'s\nWorkout',
-                style: AppTextStyles.displayMedium,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'It\'s $today. Ready to crush it?',
-                style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
-              ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Choose Today\'s\nWorkout',
+              style: AppTextStyles.displayMedium,
+            ).animate().fadeIn().slideY(begin: -0.2, end: 0),
+            const SizedBox(height: 8),
+            Text(
+              'It\'s $today. Ready to crush it?',
+              style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
+            ).animate().fadeIn(delay: 200.ms),
               const SizedBox(height: 32),
               Expanded(
                 child: ListView(
@@ -81,8 +82,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
+     );
   }
 
   void _navigateToSession(BuildContext context, String workoutName) {

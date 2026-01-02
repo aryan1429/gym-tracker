@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/custom_card.dart';
 import '../providers/photo_provider.dart';
+import '../widgets/main_background.dart';
 
 class PhotosScreen extends StatefulWidget {
   const PhotosScreen({super.key});
@@ -27,61 +28,59 @@ class _PhotosScreenState extends State<PhotosScreen> {
              _selectedMonth = null;
         }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header with simplified navigation
-              Row(
-                children: [
-                   if (_selectedMonth != null)
-                    Padding(
-                      padding: const EdgeInsets.only(right: 16.0),
-                      child: IconButton(
-                        onPressed: () => setState(() => _selectedMonth = null),
-                        icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
-                        style: IconButton.styleFrom(
-                          backgroundColor: AppColors.surfaceLight,
-                          padding: const EdgeInsets.all(12),
-                        ),
-                      ).animate().scale(),
-                    ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _selectedMonth ?? 'Progress Photos',
-                        style: AppTextStyles.displayMedium.copyWith(
-                          fontSize: _selectedMonth != null ? 28 : 32
-                        ),
+    return MainBackground(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header with simplified navigation
+            Row(
+              children: [
+                 if (_selectedMonth != null)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: IconButton(
+                      onPressed: () => setState(() => _selectedMonth = null),
+                      icon: const Icon(Icons.arrow_back_ios_new, color: AppColors.primary),
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.surfaceLight,
+                        padding: const EdgeInsets.all(12),
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _selectedMonth != null 
-                            ? 'Displaying photos from this month' 
-                            : 'Categorized by month',
-                        style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
-                      ),
-                    ],
+                    ).animate().scale(),
                   ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              
-              // Animated Switcher for Views
-              Expanded(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: _selectedMonth == null 
-                      ? _buildAlbumList(albums) 
-                      : _buildGalleryView(albums),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _selectedMonth ?? 'Progress Photos',
+                      style: AppTextStyles.displayMedium.copyWith(
+                        fontSize: _selectedMonth != null ? 28 : 32
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _selectedMonth != null 
+                          ? 'Displaying photos from this month' 
+                          : 'Categorized by month',
+                      style: AppTextStyles.bodyLarge.copyWith(color: AppColors.textSecondary),
+                    ),
+                  ],
                 ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            
+            // Animated Switcher for Views
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _selectedMonth == null 
+                    ? _buildAlbumList(albums) 
+                    : _buildGalleryView(albums),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

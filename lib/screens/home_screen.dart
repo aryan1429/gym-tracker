@@ -8,6 +8,7 @@ import '../theme/app_theme.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/custom_card.dart';
 import '../widgets/glass_container.dart';
+import '../widgets/main_background.dart';
 import 'workout_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,42 +41,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background Gradient
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF121212),
-                  Color(0xFF1E1E1E),
-                  Color(0xFF000000),
-                ],
-              ),
-            ),
-          ),
-          
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  _buildHeader(),
-                  const Spacer(),
-                  _buildStartButton(),
-                  const Spacer(),
-                  _buildStreakAndSummary(),
-                  const SizedBox(height: 80), // Space for bottom nav
-                ],
-              ),
-            ),
-          ),
-        ],
+    return MainBackground(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            _buildHeader(),
+            const Spacer(),
+            _buildStartButton(),
+            const Spacer(),
+            _buildStreakAndSummary(),
+            const SizedBox(height: 80), // Space for bottom nav
+          ],
+        ),
       ),
     );
   }

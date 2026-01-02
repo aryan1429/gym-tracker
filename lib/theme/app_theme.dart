@@ -21,12 +21,26 @@ class AppTextStyles {
     fontSize: 48,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
+    shadows: [
+      Shadow(
+        color: Colors.black.withOpacity(0.3),
+        offset: const Offset(2, 2),
+        blurRadius: 4,
+      ),
+    ],
   );
 
   static TextStyle get displayMedium => GoogleFonts.outfit(
     fontSize: 32,
     fontWeight: FontWeight.bold,
     color: AppColors.textPrimary,
+    shadows: [
+      Shadow(
+        color: Colors.black.withOpacity(0.3),
+        offset: const Offset(2, 2),
+        blurRadius: 4,
+      ),
+    ],
   );
 
   static TextStyle get headlineLarge => GoogleFonts.outfit(

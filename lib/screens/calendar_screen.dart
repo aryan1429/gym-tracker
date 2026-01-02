@@ -3,6 +3,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/custom_card.dart';
+import '../widgets/main_background.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -27,71 +28,69 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              _buildStatsHeader(),
-              const SizedBox(height: 24),
-              Expanded(
-                child: GlassContainer(
-                  opacity: 0.05,
-                  child: TableCalendar(
-                    firstDay: DateTime.utc(2024, 1, 1),
-                    lastDay: DateTime.utc(2030, 12, 31),
-                    focusedDay: _focusedDay,
-                    calendarFormat: CalendarFormat.month,
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                      _showDayDetails(context, selectedDay);
-                    },
-                    onPageChanged: (focusedDay) {
+    return MainBackground(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            _buildStatsHeader(),
+            const SizedBox(height: 24),
+            Expanded(
+              child: GlassContainer(
+                opacity: 0.05,
+                child: TableCalendar(
+                  firstDay: DateTime.utc(2024, 1, 1),
+                  lastDay: DateTime.utc(2030, 12, 31),
+                  focusedDay: _focusedDay,
+                  calendarFormat: CalendarFormat.month,
+                  selectedDayPredicate: (day) {
+                    return isSameDay(_selectedDay, day);
+                  },
+                  onDaySelected: (selectedDay, focusedDay) {
+                    setState(() {
+                      _selectedDay = selectedDay;
                       _focusedDay = focusedDay;
+                    });
+                    _showDayDetails(context, selectedDay);
+                  },
+                  onPageChanged: (focusedDay) {
+                    _focusedDay = focusedDay;
+                  },
+                  calendarStyle: CalendarStyle(
+                    defaultTextStyle: AppTextStyles.bodyMedium,
+                    weekendTextStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
+                    outsideTextStyle: AppTextStyles.bodyMedium.copyWith(color: const Color.fromRGBO(179, 179, 179, 0.5)),
+                    todayDecoration: const BoxDecoration(
+                      color: Color.fromRGBO(0, 255, 136, 0.3),
+                      shape: BoxShape.circle,
+                    ),
+                    selectedDecoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  headerStyle: HeaderStyle(
+                    titleCentered: true,
+                    formatButtonVisible: false,
+                    titleTextStyle: AppTextStyles.headlineLarge,
+                    leftChevronIcon: const Icon(Icons.chevron_left, color: AppColors.textPrimary),
+                    rightChevronIcon: const Icon(Icons.chevron_right, color: AppColors.textPrimary),
+                  ),
+                  calendarBuilders: CalendarBuilders(
+                    defaultBuilder: (context, day, focusedDay) {
+                      return _buildDayCell(day);
                     },
-                    calendarStyle: CalendarStyle(
-                      defaultTextStyle: AppTextStyles.bodyMedium,
-                      weekendTextStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.textSecondary),
-                      outsideTextStyle: AppTextStyles.bodyMedium.copyWith(color: const Color.fromRGBO(179, 179, 179, 0.5)),
-                      todayDecoration: const BoxDecoration(
-                        color: Color.fromRGBO(0, 255, 136, 0.3),
-                        shape: BoxShape.circle,
-                      ),
-                      selectedDecoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                    headerStyle: HeaderStyle(
-                      titleCentered: true,
-                      formatButtonVisible: false,
-                      titleTextStyle: AppTextStyles.headlineLarge,
-                      leftChevronIcon: const Icon(Icons.chevron_left, color: AppColors.textPrimary),
-                      rightChevronIcon: const Icon(Icons.chevron_right, color: AppColors.textPrimary),
-                    ),
-                    calendarBuilders: CalendarBuilders(
-                      defaultBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(day);
-                      },
-                      selectedBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(day, isSelected: true);
-                      },
-                      todayBuilder: (context, day, focusedDay) {
-                        return _buildDayCell(day, isToday: true);
-                      },
-                    ),
+                    selectedBuilder: (context, day, focusedDay) {
+                      return _buildDayCell(day, isSelected: true);
+                    },
+                    todayBuilder: (context, day, focusedDay) {
+                      return _buildDayCell(day, isToday: true);
+                    },
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

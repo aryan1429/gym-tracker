@@ -3,47 +3,28 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/custom_card.dart';
+import '../widgets/main_background.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // Background Gradient
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Color(0xFF1E1E1E),
-                  Color(0xFF000000),
-                ],
-              ),
-            ),
-          ),
-
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 100),
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  _buildHeader(),
-                  const SizedBox(height: 32),
-                  _buildStatsRow(),
-                  const SizedBox(height: 32),
-                  _buildAchievementsSection(),
-                  const SizedBox(height: 32),
-                  _buildSettingsSection(),
-                ],
-              ),
-            ),
-          ),
-        ],
+    return MainBackground(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 100),
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            _buildHeader(),
+            const SizedBox(height: 32),
+            _buildStatsRow(),
+            const SizedBox(height: 32),
+            _buildAchievementsSection(),
+            const SizedBox(height: 32),
+            _buildSettingsSection(),
+          ],
+        ),
       ),
     );
   }

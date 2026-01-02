@@ -5,6 +5,7 @@ import '../widgets/neon_button.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/custom_card.dart';
 import 'main_scaffold.dart';
+import '../widgets/main_background.dart';
 
 class WorkoutCompletedScreen extends StatelessWidget {
   final String duration;
@@ -18,7 +19,8 @@ class WorkoutCompletedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainBackground(
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,7 +35,7 @@ class WorkoutCompletedScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Stack(
+      child: Stack(
         children: [
           // Celebration Background Effect
           Positioned.fill(

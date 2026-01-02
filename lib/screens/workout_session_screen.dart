@@ -6,6 +6,7 @@ import '../widgets/exercise_card.dart';
 import '../widgets/neon_button.dart';
 import 'workout_completed_screen.dart';
 import '../data/exercise_data.dart';
+import '../widgets/main_background.dart';
 
 class WorkoutSessionScreen extends StatefulWidget {
   final String workoutName;
@@ -225,7 +226,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MainBackground(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -242,9 +243,8 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
           const SizedBox(width: 16),
         ],
       ),
-      body: SafeArea(
-        child: Stack(
-          children: [
+      child: Stack(
+        children: [
             Column(
               children: [
                 // Header
@@ -368,7 +368,6 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
               ),
           ],
         ),
-      ),
-    );
+     );
   }
 }
