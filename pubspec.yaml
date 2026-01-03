@@ -41,6 +41,12 @@ dependencies:
   glassmorphism_ui: ^0.3.0
   provider: ^6.1.5+1
   image_picker: ^1.2.1
+  http: ^1.2.2
+  geolocator: ^13.0.2
+  weather: ^3.1.1
+  sensors_plus: ^6.0.1
+  vibration: ^2.0.0
+  shared_preferences: ^2.3.4
 
 dev_dependencies:
   flutter_test:

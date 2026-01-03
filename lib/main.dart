@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
 import 'providers/photo_provider.dart';
+import 'providers/weather_provider.dart';
+import 'providers/recovery_provider.dart';
 import 'screens/splash_screen.dart';
 
 void main() {
@@ -9,6 +11,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PhotoProvider()),
+        ChangeNotifierProvider(create: (_) => WeatherProvider()),
+        ChangeNotifierProvider(create: (_) => RecoveryProvider()),
       ],
       child: const GymTrackerApp(),
     ),

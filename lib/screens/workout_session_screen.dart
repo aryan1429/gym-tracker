@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
@@ -7,6 +8,7 @@ import '../widgets/neon_button.dart';
 import 'workout_completed_screen.dart';
 import '../data/exercise_data.dart';
 import '../widgets/main_background.dart';
+import '../services/smart_timer_service.dart';
 
 class WorkoutSessionScreen extends StatefulWidget {
   final String workoutName;
@@ -25,11 +27,13 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
   Timer? _restTimer;
   int _restSecondsRemaining = 0;
   bool _isResting = false;
+  bool _autoStarted = false;
   
   late AnimationController _glowController;
   int _secondsElapsed = 0;
   int _currentExerciseIndex = 0;
   final PageController _pageController = PageController();
+  final SmartTimerService _smartTimer = SmartTimerService();
 
 
 
@@ -44,6 +48,24 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
     _startTimer();
+    _initSmartTimer();
+  }
+
+  void _initSmartTimer() {
+    // Start listening for phone movement
+    _smartTimer.startListening(
+      onStart: () {
+        if (!_isResting && mounted) {
+          setState(() => _autoStarted = true);
+          _startRestTimer(90); // Default 90 seconds
+        }
+      },
+      onCancel: () {
+        if (_isResting && _autoStarted && mounted) {
+          _cancelRestTimer();
+        }
+      },
+    );
   }
 
   void _startTimer() {
@@ -70,7 +92,9 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
             _restSecondsRemaining--;
           } else {
             _isResting = false;
-            timer.cancel(); // Changed 'ticker.cancel()' to 'timer.cancel()'
+            _autoStarted = false;
+            _smartTimer.triggerCompletionVibration();
+            timer.cancel();
           }
         });
       }
@@ -81,6 +105,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
     _restTimer?.cancel();
     setState(() {
       _isResting = false;
+      _autoStarted = false;
     });
   }
 
@@ -154,6 +179,7 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
   void dispose() {
     _timer.cancel();
     _restTimer?.cancel();
+    _smartTimer.dispose();
     _glowController.dispose();
     _pageController.dispose();
     super.dispose();
@@ -235,6 +261,44 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
           onPressed: _showExitConfirmationDialog,
         ),
         actions: [
+          // Smart timer status indicator
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: _smartTimer.isListening 
+                  ? AppColors.primary.withOpacity(0.2)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: _smartTimer.isListening 
+                    ? AppColors.primary.withOpacity(0.5)
+                    : Colors.transparent,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.sensors_rounded,
+                  size: 16,
+                  color: _smartTimer.isListening 
+                      ? AppColors.primary
+                      : AppColors.textSecondary,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _smartTimer.isListening ? 'AUTO' : 'OFF',
+                  style: TextStyle(
+                    color: _smartTimer.isListening 
+                        ? AppColors.primary
+                        : AppColors.textSecondary,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
           IconButton(
             onPressed: _showRestMenu,
             icon: const Icon(Icons.timer_outlined, color: AppColors.primary),
@@ -334,36 +398,69 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
                 left: 0,
                 right: 0,
                 child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.4),
-                          blurRadius: 20,
-                          spreadRadius: 2,
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.timer, color: Colors.black),
-                        const SizedBox(width: 8),
-                        Text(
-                          'REST: $_formattedRestTime',
-                          style: AppTextStyles.headlineLarge.copyWith(color: Colors.black),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (_autoStarted)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          margin: const EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.black54,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.sensors_rounded,
+                                size: 14,
+                                color: AppColors.primary,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Auto-started',
+                                style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).animate().fadeIn(),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(30),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withOpacity(0.4),
+                              blurRadius: 20,
+                              spreadRadius: 2,
+                            )
+                          ],
                         ),
-                        const SizedBox(width: 12),
-                        GestureDetector(
-                          onTap: _cancelRestTimer,
-                          child: const Icon(Icons.close, color: Colors.black),
-                        )
-                      ],
-                    ),
-                  ).animate().scale(curve: Curves.easeOutBack),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.timer, color: Colors.black),
+                            const SizedBox(width: 8),
+                            Text(
+                              'REST: $_formattedRestTime',
+                              style: AppTextStyles.headlineLarge.copyWith(color: Colors.black),
+                            ),
+                            const SizedBox(width: 12),
+                            GestureDetector(
+                              onTap: _cancelRestTimer,
+                              child: const Icon(Icons.close, color: Colors.black),
+                            )
+                          ],
+                        ),
+                      ).animate().scale(curve: Curves.easeOutBack),
+                    ],
+                  ),
                 ),
               ),
           ],

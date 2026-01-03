@@ -4,11 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../providers/photo_provider.dart';
+import '../providers/weather_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/neon_button.dart';
 import '../widgets/custom_card.dart';
 import '../widgets/glass_container.dart';
 import '../widgets/main_background.dart';
+import '../widgets/weather_widget.dart';
 import 'workout_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,6 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
         _currentTime = DateTime.now();
       });
     });
+    // Load weather data on init
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<WeatherProvider>().loadWeather();
+    });
   }
 
   @override
@@ -49,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const SizedBox(height: 20),
             _buildHeader(),
+            const SizedBox(height: 20),
+            const WeatherWidget(),
             const Spacer(),
             _buildStartButton(),
             const Spacer(),

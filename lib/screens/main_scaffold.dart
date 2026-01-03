@@ -3,6 +3,7 @@ import '../widgets/bottom_nav_bar.dart';
 import 'home_screen.dart';
 import 'workout_screen.dart';
 import 'calendar_screen.dart';
+import 'recovery_screen.dart';
 import 'photos_screen.dart';
 import 'profile_screen.dart';
 
@@ -20,6 +21,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     const HomeScreen(),
     const WorkoutScreen(),
     const CalendarScreen(),
+    const RecoveryScreen(),
     const PhotosScreen(),
     const ProfileScreen(),
   ];
