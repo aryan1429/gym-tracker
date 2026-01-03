@@ -70,6 +70,11 @@ class AppTextStyles {
 }
 
 class AppTheme {
+  // Neon accent colors for UI elements
+  static const Color neonBlue = Color(0xFF00D9FF);
+  static const Color neonPink = Color(0xFFFF006E);
+  static const Color neonPurple = Color(0xFFB537F2);
+  
   static ThemeData get darkTheme {
     return ThemeData(
       useMaterial3: true,

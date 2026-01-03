@@ -1,10 +1,11 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:weather/weather.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherService {
-  // Use a demo API key for now - user should replace with their own
-  static const String _apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+  // Load API key from environment variables
+  static String get _apiKey => dotenv.env['OPENWEATHER_API_KEY'] ?? '';
   late WeatherFactory _weatherFactory;
 
   WeatherService() {
