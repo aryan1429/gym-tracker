@@ -14,6 +14,19 @@ class AppColors {
   static const Color textSecondary = Color(0xFFB3B3B3);
   
   static const Color glassBorder = Color(0x1AFFFFFF);
+
+  static List<BoxShadow> neonShadow(Color color) => [
+        BoxShadow(
+          color: color.withOpacity(0.6),
+          blurRadius: 20,
+          spreadRadius: -5,
+        ),
+        BoxShadow(
+          color: color.withOpacity(0.3),
+          blurRadius: 40,
+          spreadRadius: 10,
+        ),
+      ];
 }
 
 class AppTextStyles {
@@ -23,7 +36,12 @@ class AppTextStyles {
     color: AppColors.textPrimary,
     shadows: [
       Shadow(
-        color: Colors.black.withOpacity(0.3),
+        color: AppColors.primary.withOpacity(0.5),
+        offset: const Offset(0, 0),
+        blurRadius: 20,
+      ),
+      Shadow(
+        color: Colors.black.withOpacity(0.5),
         offset: const Offset(2, 2),
         blurRadius: 4,
       ),
@@ -36,7 +54,12 @@ class AppTextStyles {
     color: AppColors.textPrimary,
     shadows: [
       Shadow(
-        color: Colors.black.withOpacity(0.3),
+        color: AppColors.primary.withOpacity(0.4),
+        offset: const Offset(0, 0),
+        blurRadius: 15,
+      ),
+      Shadow(
+        color: Colors.black.withOpacity(0.5),
         offset: const Offset(2, 2),
         blurRadius: 4,
       ),

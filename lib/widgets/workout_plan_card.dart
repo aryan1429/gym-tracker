@@ -31,34 +31,50 @@ class WorkoutPlanCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          boxShadow: isSuggested
-              ? [
-                  const BoxShadow(
-                    color: Color.fromRGBO(0, 255, 136, 0.3),
-                    blurRadius: 20,
-                    spreadRadius: 2,
-                  )
-                ]
-              : [],
+          boxShadow: isSuggested ? AppTheme.neonShadow(AppColors.primary) : [],
         ),
         child: GlassContainer(
           borderRadius: BorderRadius.circular(24),
-          opacity: 0.08,
-          child: Container(
+          opacity: 0.06,
+          blur: 20,
+          gradientBorder: isSuggested
+              ? LinearGradient(
+                  colors: [
+                    AppColors.primary.withOpacity(0.6),
+                    AppColors.primary.withOpacity(0.1),
+                    AppColors.primary.withOpacity(0.0),
+                    AppColors.primary.withOpacity(0.3),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: const [0.0, 0.3, 0.7, 1.0],
+                )
+              : null,
+          child: Padding(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              border: isSuggested
-                  ? Border.all(color: const Color.fromRGBO(0, 255, 136, 0.5), width: 1.5)
-                  : null,
-              borderRadius: BorderRadius.circular(24),
-            ),
             child: Row(
               children: [
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: isSuggested ? AppColors.primary : AppColors.surfaceLight,
+                    gradient: isSuggested
+                        ? const LinearGradient(
+                            colors: [AppColors.primary, Color(0xFF00CFA5)])
+                        : LinearGradient(
+                            colors: [
+                              AppColors.surfaceLight,
+                              AppColors.surfaceLight.withOpacity(0.8)
+                            ],
+                          ),
                     shape: BoxShape.circle,
+                    boxShadow: isSuggested
+                        ? [
+                            BoxShadow(
+                                color: AppColors.primary.withOpacity(0.4),
+                                blurRadius: 10,
+                                spreadRadius: 2)
+                          ]
+                        : null,
                   ),
                   child: Icon(
                     icon,
@@ -75,10 +91,12 @@ class WorkoutPlanCard extends StatelessWidget {
                         title,
                         style: AppTextStyles.headlineLarge.copyWith(fontSize: 20),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Text(
                         subtitle,
-                        style: AppTextStyles.bodyMedium,
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary.withOpacity(0.8),
+                        ),
                       ),
                     ],
                   ),
@@ -86,16 +104,21 @@ class WorkoutPlanCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color.fromRGBO(0, 0, 0, 0.3),
+                    color: Colors.black.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.white.withOpacity(0.05)),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.access_time_rounded, size: 14, color: AppColors.textSecondary),
-                      const SizedBox(width: 4),
+                      const Icon(Icons.access_time_rounded,
+                          size: 14, color: AppColors.textSecondary),
+                      const SizedBox(width: 6),
                       Text(
                         duration,
-                        style: AppTextStyles.bodyMedium.copyWith(fontSize: 12),
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -105,6 +128,6 @@ class WorkoutPlanCard extends StatelessWidget {
           ),
         ),
       ),
-    ).animate().fadeIn(delay: (100 * index).ms).slideX(begin: 0.2, end: 0);
+    ).animate().fadeIn(delay: (100 * index).ms).slideX(begin: 0.1, end: 0, curve: Curves.easeOutCubic);
   }
 }
