@@ -42,7 +42,7 @@ class _NeonButtonState extends State<NeonButton> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          boxShadow: AppTheme.neonShadow(buttonColor),
+          boxShadow: AppColors.neonShadow(buttonColor),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Text(

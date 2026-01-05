@@ -31,7 +31,7 @@ class WorkoutPlanCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          boxShadow: isSuggested ? AppTheme.neonShadow(AppColors.primary) : [],
+          boxShadow: isSuggested ? AppColors.neonShadow(AppColors.primary) : [],
         ),
         child: GlassContainer(
           borderRadius: BorderRadius.circular(24),
