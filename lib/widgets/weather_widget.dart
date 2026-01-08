@@ -105,6 +105,7 @@ class WeatherWidget extends StatelessWidget {
                       color: AppTheme.neonBlue.withOpacity(0.5),
                       width: 1,
                     ),
+                    boxShadow: AppColors.neonShadow(AppTheme.neonBlue),
                   ),
                   child: Text(
                     weatherProvider.weatherEmoji,
@@ -124,17 +125,14 @@ class WeatherWidget extends StatelessWidget {
                     children: [
                       Text(
                         weatherProvider.temperatureString,
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: AppTextStyles.displayMedium.copyWith(
                           fontSize: 28,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         weatherProvider.condition,
-                        style: TextStyle(
+                        style: AppTextStyles.bodyMedium.copyWith(
                           color: Colors.white.withOpacity(0.7),
-                          fontSize: 14,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

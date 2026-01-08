@@ -30,9 +30,14 @@ class _MainScaffoldState extends State<MainScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true, // Important for glass effect
-      body: AnimatedIndexedStack(
-        index: _currentIndex,
-        children: _screens,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: AppColors.mainBackgroundGradient,
+        ),
+        child: AnimatedIndexedStack(
+          index: _currentIndex,
+          children: _screens,
+        ),
       ),
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentIndex,

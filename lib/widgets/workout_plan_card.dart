@@ -49,7 +49,14 @@ class WorkoutPlanCard extends StatelessWidget {
                   end: Alignment.bottomRight,
                   stops: const [0.0, 0.3, 0.7, 1.0],
                 )
-              : null,
+              : LinearGradient(
+                  colors: [
+                    Colors.white.withOpacity(0.1),
+                    Colors.white.withOpacity(0.05),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Row(

@@ -223,26 +223,39 @@ class _NavBarItemState extends State<NavBarItem>
                           duration: const Duration(milliseconds: 200),
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: widget.isSelected
-                                ? const Color.fromRGBO(0, 255, 136, 0.2)
-                                : isHovering
-                                    ? const Color.fromRGBO(0, 255, 136, 0.1)
-                                    : Colors.transparent,
+                            gradient: widget.isSelected
+                                ? LinearGradient(
+                                    colors: [
+                                      AppColors.primary.withOpacity(0.2),
+                                      AppColors.primary.withOpacity(0.1),
+                                    ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  )
+                                : null,
+                            color: !widget.isSelected && isHovering
+                                ? const Color.fromRGBO(0, 255, 136, 0.1)
+                                : Colors.transparent,
                             shape: BoxShape.circle,
                             boxShadow: widget.isSelected
                                 ? [
                                     BoxShadow(
-                                      color: const Color.fromRGBO(0, 255, 136, 0.5),
-                                      blurRadius: 10 * _glowAnimation.value,
-                                      spreadRadius: 1 * _glowAnimation.value,
-                                    )
+                                      color: const Color.fromRGBO(0, 255, 136, 0.6),
+                                      blurRadius: 15 * _glowAnimation.value,
+                                      spreadRadius: 2 * _glowAnimation.value,
+                                    ),
+                                    BoxShadow(
+                                      color: const Color.fromRGBO(0, 255, 136, 0.3),
+                                      blurRadius: 30,
+                                      spreadRadius: 10,
+                                    ),
                                   ]
                                 : isHovering
                                     ? [
                                         const BoxShadow(
                                           color: Color.fromRGBO(0, 255, 136, 0.3),
-                                          blurRadius: 8,
-                                          spreadRadius: 0.5,
+                                          blurRadius: 10,
+                                          spreadRadius: 1,
                                         )
                                       ]
                                     : [],

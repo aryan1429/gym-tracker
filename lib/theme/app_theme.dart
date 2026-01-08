@@ -15,15 +15,26 @@ class AppColors {
   
   static const Color glassBorder = Color(0x1AFFFFFF);
 
+  // New Gradients
+  static const LinearGradient mainBackgroundGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF1E1E1E), // Slightly lighter surface tone at top-left
+      Color(0xFF0A0A0A), // Deep black at bottom-right
+    ],
+    stops: [0.0, 1.0],
+  );
+
   static List<BoxShadow> neonShadow(Color color) => [
         BoxShadow(
-          color: color.withOpacity(0.6),
-          blurRadius: 20,
-          spreadRadius: -5,
+          color: color.withOpacity(0.5),
+          blurRadius: 25,
+          spreadRadius: -2,
         ),
         BoxShadow(
-          color: color.withOpacity(0.3),
-          blurRadius: 40,
+          color: color.withOpacity(0.2),
+          blurRadius: 50,
           spreadRadius: 10,
         ),
       ];
