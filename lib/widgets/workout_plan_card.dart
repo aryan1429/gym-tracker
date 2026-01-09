@@ -61,32 +61,35 @@ class WorkoutPlanCard extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    gradient: isSuggested
-                        ? const LinearGradient(
-                            colors: [AppColors.primary, Color(0xFF00CFA5)])
-                        : LinearGradient(
-                            colors: [
-                              AppColors.surfaceLight,
-                              AppColors.surfaceLight.withOpacity(0.8)
-                            ],
-                          ),
-                    shape: BoxShape.circle,
-                    boxShadow: isSuggested
-                        ? [
-                            BoxShadow(
-                                color: AppColors.primary.withOpacity(0.4),
-                                blurRadius: 10,
-                                spreadRadius: 2)
-                          ]
-                        : null,
-                  ),
-                  child: Icon(
-                    icon,
-                    color: isSuggested ? Colors.black : AppColors.textPrimary,
-                    size: 28,
+                Hero(
+                  tag: 'workout-icon-$title',
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      gradient: isSuggested
+                          ? const LinearGradient(
+                              colors: [AppColors.primary, Color(0xFF00CFA5)])
+                          : LinearGradient(
+                              colors: [
+                                AppColors.surfaceLight,
+                                AppColors.surfaceLight.withOpacity(0.8)
+                              ],
+                            ),
+                      shape: BoxShape.circle,
+                      boxShadow: isSuggested
+                          ? [
+                              BoxShadow(
+                                  color: AppColors.primary.withOpacity(0.4),
+                                  blurRadius: 10,
+                                  spreadRadius: 2)
+                            ]
+                          : null,
+                    ),
+                    child: Icon(
+                      icon,
+                      color: isSuggested ? Colors.black : AppColors.textPrimary,
+                      size: 28,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),

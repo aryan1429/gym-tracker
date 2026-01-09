@@ -12,10 +12,12 @@ import '../services/smart_timer_service.dart';
 
 class WorkoutSessionScreen extends StatefulWidget {
   final String workoutName;
+  final IconData? workoutIcon;
 
   const WorkoutSessionScreen({
     super.key,
     required this.workoutName,
+    this.workoutIcon,
   });
 
   @override
@@ -316,6 +318,30 @@ class _WorkoutSessionScreenState extends State<WorkoutSessionScreen> with Ticker
                   padding: const EdgeInsets.all(24.0),
                   child: Column(
                     children: [
+                      if (widget.workoutIcon != null)
+                        Hero(
+                          tag: 'workout-icon-${widget.workoutName}',
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            margin: const EdgeInsets.only(bottom: 16),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.primary.withOpacity(0.4),
+                                  blurRadius: 20,
+                                  spreadRadius: 2,
+                                ),
+                              ],
+                            ),
+                            child: Icon(
+                              widget.workoutIcon,
+                              color: AppColors.primary,
+                              size: 40,
+                            ),
+                          ),
+                        ),
                       Text(
                         _formattedTime,
                         style: AppTextStyles.displayMedium.copyWith(

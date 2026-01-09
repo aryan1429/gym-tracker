@@ -267,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildExerciseItem('Incline Dumbbell Press', '3 sets x 12 reps'),
                     _buildExerciseItem('Cable Flyes', '3 sets x 15 reps'),
                     _buildExerciseItem('Tricep Pushdowns', '4 sets x 12 reps'),
-                  ],
+                  ].animate(interval: 100.ms).fade(duration: 400.ms).slideX(begin: 0.2, end: 0, curve: Curves.easeOutCubic),
                 ),
               ),
             ],

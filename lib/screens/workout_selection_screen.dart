@@ -47,7 +47,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
                       icon: Icons.fitness_center,
                       isSuggested: true,
                       index: 0,
-                      onTap: () => _navigateToSession(context, 'Pull Day'),
+                      onTap: () => _navigateToSession(context, 'Pull Day', Icons.fitness_center),
                     ),
                     WorkoutPlanCard(
                       title: 'Push Day',
@@ -56,7 +56,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
                       icon: Icons.accessibility_new_rounded,
                       isSuggested: false,
                       index: 1,
-                      onTap: () => _navigateToSession(context, 'Push Day'),
+                      onTap: () => _navigateToSession(context, 'Push Day', Icons.accessibility_new_rounded),
                     ),
                     WorkoutPlanCard(
                       title: 'Legs (Quads)',
@@ -65,7 +65,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
                       icon: Icons.directions_run_rounded,
                       isSuggested: false,
                       index: 2,
-                      onTap: () => _navigateToSession(context, 'Legs (Quads)'),
+                      onTap: () => _navigateToSession(context, 'Legs (Quads)', Icons.directions_run_rounded),
                     ),
                     WorkoutPlanCard(
                       title: 'Legs (Hams)',
@@ -74,7 +74,7 @@ class WorkoutSelectionScreen extends StatelessWidget {
                       icon: Icons.directions_walk_rounded,
                       isSuggested: false,
                       index: 3,
-                      onTap: () => _navigateToSession(context, 'Legs (Hams)'),
+                      onTap: () => _navigateToSession(context, 'Legs (Hams)', Icons.directions_walk_rounded),
                     ),
                   ],
                 ),
@@ -85,11 +85,14 @@ class WorkoutSelectionScreen extends StatelessWidget {
      );
   }
 
-  void _navigateToSession(BuildContext context, String workoutName) {
+  void _navigateToSession(BuildContext context, String workoutName, IconData icon) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutSessionScreen(workoutName: workoutName),
+        builder: (context) => WorkoutSessionScreen(
+          workoutName: workoutName,
+          workoutIcon: icon,
+        ),
       ),
     );
   }
