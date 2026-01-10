@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../widgets/bottom_nav_bar.dart';
 import 'home_screen.dart';
 import 'workout_screen.dart';
@@ -31,7 +32,7 @@ class _MainScaffoldState extends State<MainScaffold> {
     return Scaffold(
       extendBody: true, // Important for glass effect
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: AppColors.mainBackgroundGradient,
         ),
         child: AnimatedIndexedStack(
