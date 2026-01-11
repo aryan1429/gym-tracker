@@ -137,9 +137,11 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                          ),
                        ).animate().fadeIn(delay: 1.2.seconds)
                         .boxShadow(
-                          color: AppColors.primary.withOpacity(0.5),
-                          blurRadius: 20,
-                          spreadRadius: 5,
+                          end: BoxShadow(
+                            color: AppColors.primary.withOpacity(0.5),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
                         ).shimmer(delay: 2.seconds, duration: 1.seconds),
                     ],
                   ),
