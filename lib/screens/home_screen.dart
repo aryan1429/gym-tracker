@@ -88,7 +88,18 @@ class _HomeScreenState extends State<HomeScreen> {
         Text(
           DateFormat('EEEE, MMM d').format(_currentTime).toUpperCase(),
           style: AppTextStyles.labelLarge.copyWith(
-            color: AppColors.textSecondary,
+            color: AppColors.primary,
+            letterSpacing: 2,
+            shadows: [
+              Shadow(
+                color: AppColors.primary.withOpacity(0.6),
+                blurRadius: 10,
+              ),
+              Shadow(
+                color: AppColors.primary.withOpacity(0.3),
+                blurRadius: 20,
+              ),
+            ],
           ),
         ).animate().fadeIn(delay: 200.ms).slideX(),
       ],
