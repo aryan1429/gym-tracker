@@ -98,70 +98,83 @@ class _ExerciseCardState extends State<ExerciseCard> {
               ),
               const SizedBox(height: 16),
               
-              // Notes & History
-              Row(
-                children: [
-                   Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: const Color.fromRGBO(255, 171, 64, 0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: const Color.fromRGBO(255, 171, 64, 0.3)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text('INSTRUCTIONS', style: TextStyle(color: AppColors.warning, fontSize: 10, fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 4),
-                          Text(
-                            widget.notes,
-                            style: AppTextStyles.bodyMedium.copyWith(color: AppColors.warning, fontSize: 12),
+                  // Instructions & Previous Best
+                  Row(
+                    children: [
+                       Expanded(
+                        child: GlassContainer(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.warning.withOpacity(0.15),
+                              AppColors.warning.withOpacity(0.05),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
-                      ),
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('PREVIOUS BEST', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold)),
-                          SizedBox(height: 4),
-                          Text(
-                            '100kg x 8', // Mock data
-                            style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold),
+                          border: Border.all(color: AppColors.warning.withOpacity(0.2)),
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('INSTRUCTIONS', style: TextStyle(color: AppColors.warning, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                              const SizedBox(height: 4),
+                              Text(
+                                widget.notes,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.warning.withOpacity(0.9), fontSize: 12),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: GlassContainer(
+                          borderRadius: BorderRadius.circular(16),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              AppColors.primary.withOpacity(0.15),
+                              AppColors.primary.withOpacity(0.05),
+                            ],
+                          ),
+                          border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+                          padding: const EdgeInsets.all(12),
+                          child: const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('PREVIOUS BEST', style: TextStyle(color: AppColors.primary, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1.0)),
+                              SizedBox(height: 4),
+                              Text(
+                                '100kg x 8', // Mock data
+                                style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
               const SizedBox(height: 16),
               
               // Personal Notes Input
-              TextField(
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  hintText: 'Add personal notes (e.g. Widen Grip)',
-                  hintStyle: const TextStyle(color: Colors.white24),
-                  filled: true,
-                  fillColor: AppColors.surfaceLight,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
+              GlassContainer(
+                borderRadius: BorderRadius.circular(16),
+                opacity: 0.03,
+                border: Border.all(color: Colors.white.withOpacity(0.1)),
+                child: TextField(
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    hintText: 'Add personal notes (e.g. Widen Grip)',
+                    hintStyle: TextStyle(color: Colors.white24),
+                    filled: false,
+                    border: InputBorder.none,
+                    prefixIcon: Icon(Icons.edit_note, color: Colors.white54),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                   ),
-                  prefixIcon: const Icon(Icons.edit_note, color: Colors.white54),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 ),
               ),
               const SizedBox(height: 24),
@@ -172,11 +185,27 @@ class _ExerciseCardState extends State<ExerciseCard> {
               ..._sets.asMap().entries.map((entry) => _buildSetRow(entry.key, entry.value)),
               
               const SizedBox(height: 16),
+              const SizedBox(height: 16),
               Center(
-                child: TextButton.icon(
-                  onPressed: () => setState(() => _sets.add({'weight': '0', 'reps': '0', 'done': false})),
-                  icon: const Icon(Icons.add, color: AppColors.primary),
-                  label: const Text('Add Set', style: TextStyle(color: AppColors.primary)),
+                child: GestureDetector(
+                  onTap: () => setState(() => _sets.add({'weight': '0', 'reps': '0', 'done': false})),
+                  child: GlassContainer(
+                    borderRadius: BorderRadius.circular(30),
+                    opacity: 0.1,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.add, color: AppColors.primary, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          'ADD SET',
+                          style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary, fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -258,19 +287,18 @@ class _ExerciseCardState extends State<ExerciseCard> {
   }
 
   Widget _buildInput(String initialValue, Function(String) onChanged) {
-    return Container(
-      height: 40,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceLight,
-        borderRadius: BorderRadius.circular(8),
-      ),
+    return GlassContainer(
+      height: 45,
+      opacity: 0.05,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.white.withOpacity(0.1)),
       child: TextField(
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
         decoration: const InputDecoration(
           border: InputBorder.none,
-          contentPadding: EdgeInsets.only(bottom: 10), // Adjust alignment
+          contentPadding: EdgeInsets.only(bottom: 8), // Center text vertically
           hintText: '-',
           hintStyle: TextStyle(color: Colors.white24),
         ),
